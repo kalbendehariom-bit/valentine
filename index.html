@@ -14,7 +14,6 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    overflow: hidden;
     color: white;
 }
 
@@ -25,18 +24,12 @@ body {
 
 h1 {
     font-size: 2.3rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 p {
     font-size: 1.1rem;
     line-height: 1.6;
-}
-
-.buttons {
-    margin-top: 30px;
-    position: relative;
-    height: 150px;
 }
 
 button {
@@ -45,23 +38,17 @@ button {
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    position: absolute;
+    margin: 10px;
 }
 
 #yesBtn {
     background: #4CAF50;
     color: white;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
 }
 
 #noBtn {
     background: #f44336;
     color: white;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0;
 }
 
 .hidden {
@@ -78,14 +65,16 @@ img {
 
 <body>
 
-<div class="container" id="main">
+<div class="container" id="stage1">
     <h1>Hey Swara 💕</h1>
     <p>Will you be my Valentine?</p>
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 💔</button>
+</div>
 
-    <div class="buttons">
-        <button id="yesBtn">Yes 💖</button>
-        <button id="noBtn">No 💔</button>
-    </div>
+<div class="container hidden" id="stage2">
+    <h1>please.</h1>
+    <button id="finalYes">Yes 💖</button>
 </div>
 
 <div class="container hidden" id="message">
@@ -93,98 +82,80 @@ img {
 </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const main = document.getElementById("main");
+const stage1 = document.getElementById("stage1");
+const stage2 = document.getElementById("stage2");
 const message = document.getElementById("message");
 const typing = document.getElementById("typing");
 
-let noCount = 0;
+document.getElementById("yesBtn").onclick = startMessage;
+document.getElementById("finalYes").onclick = startMessage;
 
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("touchstart", moveNo);
-
-function moveNo() {
-    noCount++;
-
-    if (noCount === 1) {
-        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    } else {
-        main.classList.add("hidden");
-        message.classList.remove("hidden");
-        startTyping();
-    }
-}
+document.getElementById("noBtn").onclick = () => {
+    stage1.classList.add("hidden");
+    stage2.classList.remove("hidden");
+};
 
 const text = `
-I know you.
-You would click NO
-naughty girl😏
+I won’t make this dramatic.
+I won’t make this clever.
 
-So before you decide —
-I just want you to know this:
+I just want to be honest.
 
-I don’t want perfect.
-I don’t want easy.
-I want real.
+I don’t want perfection.
+I don’t want promises that are easy to say.
 
-I want the days we laugh,
-and the days we don’t talk much.
+I want you —
+on normal days,
+on quiet days,
+on hard days.
 
-And even if someday you choose no —
-I’ll still be glad
-that I got to choose you.
+And if someday things aren’t simple,
+I still want to choose you.
 
-So now…
-what do YOU want?
+So if this is a yes,
+it means something real to me.
 `;
 
 let index = 0;
 
-function startTyping() {
+function startMessage() {
+    stage2.classList.add("hidden");
+    message.classList.remove("hidden");
+    typeText();
+}
+
+function typeText() {
     if (index < text.length) {
         typing.innerHTML += text.charAt(index);
         index++;
-        setTimeout(startTyping, 40);
+        setTimeout(typeText, 40);
     } else {
-        showFinalButton();
+        showFinal();
     }
 }
 
-function showFinalButton() {
-    const btn = document.createElement("button");
-    btn.innerText = "Yes 💖";
-    btn.style.marginTop = "30px";
-    btn.style.background = "#4CAF50";
-    btn.style.color = "white";
-    btn.style.borderRadius = "30px";
-    btn.style.padding = "14px 30px";
-    btn.onclick = showFinal;
-    message.appendChild(btn);
-}
-
 function showFinal() {
-    document.body.innerHTML = `
-    <div style="
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        height:100vh;
-        background:linear-gradient(135deg,#ff758c,#ff7eb3);
-        color:white;
-        text-align:center;
-        font-family:Arial;
-        padding:20px;
-    ">
-        <h1>I LOVE YOU ❤️.</h1>
-        <h2>I'm yours and you are mine ❤️</h2>
-        <img src="Us.jpg">
-        <p style="margin-top:15px;">Screenshot this 😏</p>
-    </div>
-    `;
+    setTimeout(() => {
+        document.body.innerHTML = `
+        <div style="
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:linear-gradient(135deg,#ff758c,#ff7eb3);
+            color:white;
+            text-align:center;
+            font-family:Arial;
+            padding:20px;
+        ">
+            <h1>I LOVE YOU ❤️.</h1>
+            <h2>This was courage ❤️</h2>
+            <img src="Us.jpg">
+            <p style="margin-top:15px;">Screenshot this 😏</p>
+        </div>
+        `;
+    }, 800);
 }
 </script>
 
