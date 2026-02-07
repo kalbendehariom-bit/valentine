@@ -1,5 +1,3 @@
-valentine.html valentine.html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +13,7 @@ valentine.html valentine.html
         justify-content: center;
         align-items: center;
         background: linear-gradient(135deg, #ff758c, #ff7eb3);
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
         overflow: hidden;
     }
 
@@ -25,8 +23,8 @@ valentine.html valentine.html
     }
 
     h1 {
-        font-size: 2.2rem;
-        margin-bottom: 30px;
+        font-size: 2.3rem;
+        margin-bottom: 20px;
     }
 
     .buttons {
@@ -37,13 +35,13 @@ valentine.html valentine.html
     }
 
     button {
-        padding: 12px 25px;
+        padding: 14px 28px;
         font-size: 18px;
         border: none;
-        border-radius: 25px;
+        border-radius: 30px;
         cursor: pointer;
         position: absolute;
-        transition: 0.2s;
+        transition: 0.2s ease;
     }
 
     #yesBtn {
@@ -61,13 +59,32 @@ valentine.html valentine.html
         left: 50%;
         transform: translateX(-50%);
     }
+
+    .panic {
+        animation: shake 0.3s infinite;
+    }
+
+    @keyframes shake {
+        0% { transform: translate(-50%, 0); }
+        25% { transform: translate(-48%, 0); }
+        50% { transform: translate(-52%, 0); }
+        75% { transform: translate(-48%, 0); }
+        100% { transform: translate(-50%, 0); }
+    }
+
+    img {
+        max-width: 300px;
+        border-radius: 20px;
+        margin-top: 20px;
+    }
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>Will you be my Valentine? 💘</h1>
+    <h1>Hey Swara 💕<br>Will you be my Valentine?</h1>
+
     <div class="buttons">
         <button id="yesBtn">Yes 💖</button>
         <button id="noBtn">No 💔</button>
@@ -82,18 +99,17 @@ valentine.html valentine.html
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
         noBtn.style.left = `${x}px`;
         noBtn.style.top = `${y}px`;
+        noBtn.classList.add("panic");
     }
 
-    // For mouse (laptop/PC)
     noBtn.addEventListener("mouseover", moveButton);
-
-    // For touch (mobile)
     noBtn.addEventListener("touchstart", moveButton);
 
     document.getElementById("yesBtn").addEventListener("click", () => {
         document.body.innerHTML = `
             <div style="
                 display:flex;
+                flex-direction:column;
                 justify-content:center;
                 align-items:center;
                 height:100vh;
@@ -101,8 +117,13 @@ valentine.html valentine.html
                 color:white;
                 text-align:center;
                 font-family:Arial;
+                padding:20px;
             ">
-                <h1>Yayyy! 💕<br>You just made me the happiest person 🥰</h1>
+                <h1>Yayyy 💕<br>Best decision ever 🥰</h1>
+                <img src="https://media.giphy.com/media/xxxxxxxx/giphy.gif" alt="Us together">
+                <p style="margin-top:15px;font-size:18px;">
+                    Forever starts now ❤️
+                </p>
             </div>
         `;
     });
