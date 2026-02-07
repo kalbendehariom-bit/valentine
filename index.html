@@ -3,87 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine 💖</title>
+<title>For You 💗</title>
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff758c, #ff7eb3);
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    color: white;
+}
 
-    .container {
-        text-align: center;
-        color: white;
-    }
+.container {
+    text-align: center;
+    max-width: 90%;
+}
 
-    h1 {
-        font-size: 2.3rem;
-        margin-bottom: 20px;
-    }
+h1 {
+    font-size: 2.3rem;
+    margin-bottom: 20px;
+}
 
-    .buttons {
-        position: relative;
-        width: 300px;
-        height: 200px;
-        margin: auto;
-    }
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
 
-    button {
-        padding: 14px 28px;
-        font-size: 18px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        position: absolute;
-        transition: 0.2s ease;
-    }
+.buttons {
+    margin-top: 30px;
+    position: relative;
+    height: 150px;
+}
 
-    #yesBtn {
-        background-color: #4CAF50;
-        color: white;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 20px;
-    }
+button {
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    position: absolute;
+}
 
-    #noBtn {
-        background-color: #f44336;
-        color: white;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+#yesBtn {
+    background: #4CAF50;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
 
-    .panic {
-        animation: shake 0.3s infinite;
-    }
+#noBtn {
+    background: #f44336;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+}
 
-    @keyframes shake {
-        0% { transform: translate(-50%, 0); }
-        25% { transform: translate(-48%, 0); }
-        50% { transform: translate(-52%, 0); }
-        75% { transform: translate(-48%, 0); }
-        100% { transform: translate(-50%, 0); }
-    }
+.hidden {
+    display: none;
+}
 
-    img {
-        max-width: 300px;
-        border-radius: 20px;
-        margin-top: 20px;
-    }
+img {
+    max-width: 280px;
+    border-radius: 20px;
+    margin-top: 25px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Hey Swara 💕<br>Will you be my Valentine?</h1>
+<div class="container" id="main">
+    <h1>Hey Swara 💕</h1>
+    <p>Will you be my Valentine?</p>
 
     <div class="buttons">
         <button id="yesBtn">Yes 💖</button>
@@ -91,42 +88,104 @@
     </div>
 </div>
 
-<script>
-    const noBtn = document.getElementById("noBtn");
+<div class="container hidden" id="message">
+    <p id="typing"></p>
+</div>
 
-    function moveButton() {
+<script>
+const noBtn = document.getElementById("noBtn");
+const main = document.getElementById("main");
+const message = document.getElementById("message");
+const typing = document.getElementById("typing");
+
+let noCount = 0;
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+function moveNo() {
+    noCount++;
+
+    if (noCount === 1) {
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
-        noBtn.classList.add("panic");
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    } else {
+        main.classList.add("hidden");
+        message.classList.remove("hidden");
+        startTyping();
     }
+}
 
-    noBtn.addEventListener("mouseover", moveButton);
-    noBtn.addEventListener("touchstart", moveButton);
+const text = `
+I know you.
+You would click NO
+naughty girl😏
 
-    document.getElementById("yesBtn").addEventListener("click", () => {
-        document.body.innerHTML = `
-            <div style="
-                display:flex;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-                height:100vh;
-                background:linear-gradient(135deg,#ff758c,#ff7eb3);
-                color:white;
-                text-align:center;
-                font-family:Arial;
-                padding:20px;
-            ">
-                <h1>Yayyy 💕<br>Best decision ever 🥰</h1>
-                <img src="Us.jpg" alt="Us together">
-                <p style="margin-top:15px;font-size:18px;">
-                    Forever starts now ❤️
-                </p>
-            </div>
-        `;
-    });
+So before you decide —
+I just want you to know this:
+
+I don’t want perfect.
+I don’t want easy.
+I want real.
+
+I want the days we laugh,
+and the days we don’t talk much.
+
+And even if someday you choose no —
+I’ll still be glad
+that I got to choose you.
+
+So now…
+what do YOU want?
+`;
+
+let index = 0;
+
+function startTyping() {
+    if (index < text.length) {
+        typing.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(startTyping, 40);
+    } else {
+        showFinalButton();
+    }
+}
+
+function showFinalButton() {
+    const btn = document.createElement("button");
+    btn.innerText = "Yes 💖";
+    btn.style.marginTop = "30px";
+    btn.style.background = "#4CAF50";
+    btn.style.color = "white";
+    btn.style.borderRadius = "30px";
+    btn.style.padding = "14px 30px";
+    btn.onclick = showFinal;
+    message.appendChild(btn);
+}
+
+function showFinal() {
+    document.body.innerHTML = `
+    <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        background:linear-gradient(135deg,#ff758c,#ff7eb3);
+        color:white;
+        text-align:center;
+        font-family:Arial;
+        padding:20px;
+    ">
+        <h1>This wasn’t code.</h1>
+        <h2>This was courage ❤️</h2>
+        <img src="Us.jpg">
+        <p style="margin-top:15px;">Screenshot this 😏</p>
+    </div>
+    `;
+}
 </script>
 
 </body>
